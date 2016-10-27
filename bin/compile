@@ -5,6 +5,8 @@ echo "-----> Install gettext v${VERSION}"
 
 BUILD_DIR=$1
 CACHE_DIR="$2/gettext"
+INSTALL_PATH=".heroku/gettext"
+INSTALL_DIR="$BUILD_DIR/$INSTALL_PATH"
 
 indent() {
     sed -u 's/^/       /'
@@ -36,4 +38,5 @@ printlog "Compiling gettext"
 make
 
 printlog "Installing gettext"
-make install
+mkdir -p $INSTALL_DIR/bin
+make install DESTDIR=$INSTALL_DIR/bin
