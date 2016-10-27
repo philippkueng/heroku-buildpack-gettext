@@ -2,3 +2,33 @@
 
 VERSION="0.19.8"
 echo "-----> Install gettext v${VERSION}"
+
+BUILD_DIR=$1
+CACHE_DIR="$2/gettext"
+
+indent() {
+    sed -u 's/^/       /'
+}
+
+printlog() {
+    echo $1 | indent
+}
+
+run_silent() {
+    $1 > /dev/null 2>&1
+}
+
+
+mkdir -p $CACHE_DIR
+printlog "Cache directory: ${CACHE_DIR}"
+
+printlog "Downloading gettext"
+wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.tar.gz
+
+printlog "Unpacking gettext"
+tar -zxvf gettext-0.19.8.tar.gz
+
+printlog "Configuring gettext"
+cd gettext-0.19.8/
+./configure
+make
