@@ -7,6 +7,7 @@ BUILD_DIR=$1
 CACHE_DIR="$2/gettext"
 INSTALL_PATH=".heroku/gettext"
 INSTALL_DIR="$BUILD_DIR/$INSTALL_PATH"
+PROFILE_DIR="$BUILD_DIR/.profile.d"
 
 indent() {
     sed -u 's/^/       /'
@@ -40,3 +41,10 @@ make
 printlog "Installing gettext"
 mkdir -p $INSTALL_DIR/bin
 make install DESTDIR=$INSTALL_DIR/bin
+
+mkdir -p $PROFILE_DIR
+echo "export PATH=\$PATH:\$HOME/$INSTALL_PATH/bin/usr/local/bin" > $PROFILE_DIR/gettext.sh
+
+# Exporting the PATH variable, so that buildpacks following after this can use gettext
+BUILDPACK_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
+echo "export PATH=\$PATH:$INSTALL_DIR/bin/usr/local/bin" > $BUILDPACK_DIR/export
