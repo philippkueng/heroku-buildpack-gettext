@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# This pack is valid for all apps
+echo "gettext"
+exit 0
