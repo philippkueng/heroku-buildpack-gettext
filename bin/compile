@@ -23,12 +23,17 @@ mkdir -p $CACHE_DIR
 printlog "Cache directory: ${CACHE_DIR}"
 
 printlog "Downloading gettext"
-wget http://ftp.gnu.org/pub/gnu/gettext/gettext-0.19.8.tar.gz
+wget "http://ftp.gnu.org/pub/gnu/gettext/gettext-${VERSION}.tar.gz"
 
 printlog "Unpacking gettext"
-tar -zxvf gettext-0.19.8.tar.gz
+tar -zxvf "gettext-${VERSION}.tar.gz"
 
 printlog "Configuring gettext"
-cd gettext-0.19.8/
-./configure
+cd "gettext-${VERSION}"
+run_silent "/bin/sh configure"
+
+printlog "Compiling gettext"
 make
+
+printlog "Installing gettext"
+make install
