@@ -37,6 +37,8 @@ else
   cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
 fi
 
+cd "gettext-${VERSION}"
+
 if [ -f "${CACHE_DIR}/gettext-${VERSION}/configured" ]; then
   printlog "Skip the ./configure call and take already configured version from the cache."
 else
