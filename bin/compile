@@ -22,7 +22,7 @@ run_silent() {
 }
 
 
-mkdir -p "${CACHE_DIR}/gettext-${VERSION}"
+mkdir -p $CACHE_DIR
 printlog "Cache directory: ${CACHE_DIR}"
 
 if [ -d "${CACHE_DIR}/gettext-${VERSION}" ]; then
