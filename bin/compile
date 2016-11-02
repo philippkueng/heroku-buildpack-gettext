@@ -53,7 +53,9 @@ else
   ls -la
   env
   which make
+  cp -r "${CACHE_DIR}/gettext-${VERSION}" "${BUILD_DIR}/gettext-${VERSION}"
   make && touch "${CACHE_DIR}/gettext-${VERSION}/made"
+  cd "${BUILD_DIR}/gettext-${VERSION}/" && make
 fi
 
 printlog "Installing gettext"
