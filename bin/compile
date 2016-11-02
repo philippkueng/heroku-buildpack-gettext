@@ -43,7 +43,7 @@ if [ -f "${CACHE_DIR}/gettext-${VERSION}/configured" ]; then
   printlog "Skip the ./configure call and take already configured version from the cache."
 else
   printlog "Configuring gettext"
-  run_silent "/bin/sh configure && touch ${CACHE_DIR}/gettext-${VERSION}/configured && cp -r gettext-${VERSION} ${CACHE_DIR}/gettext-${VERSION}"
+  /bin/sh configure && touch "${CACHE_DIR}/gettext-${VERSION}/configured" && cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
 fi
 
 if [ -f "${CACHE_DIR}/gettext-${VERSION}/made" ]; then
