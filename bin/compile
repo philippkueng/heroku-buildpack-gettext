@@ -22,27 +22,26 @@ run_silent() {
 }
 
 
-mkdir -p $CACHE_DIR
+mkdir -p "${CACHE_DIR}/gettext-${VERSION}"
 printlog "Cache directory: ${CACHE_DIR}"
-cd $CACHE_DIR
 
 if [ -d "${CACHE_DIR}/gettext-${VERSION}" ]; then
   printlog "Skip downloading and take it from the cache."
+  cp -r "${CACHE_DIR}/gettext-${VERSION}" "gettext-${VERSION}"
 else
   printlog "Downloading gettext"
   wget "http://ftp.gnu.org/pub/gnu/gettext/gettext-${VERSION}.tar.gz"
 
   printlog "Unpacking gettext"
   tar -zxvf "gettext-${VERSION}.tar.gz"
+  cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
 fi
-
-cd "${CACHE_DIR}/gettext-${VERSION}/"
 
 if [ -f "${CACHE_DIR}/gettext-${VERSION}/configured" ]; then
   printlog "Skip the ./configure call and take already configured version from the cache."
 else
   printlog "Configuring gettext"
-  run_silent "/bin/sh configure && touch configured"
+  run_silent "/bin/sh configure && touch ${CACHE_DIR}/gettext-${VERSION}/configured && cp -r gettext-${VERSION} ${CACHE_DIR}/gettext-${VERSION}"
 fi
 
 if [ -f "${CACHE_DIR}/gettext-${VERSION}/made" ]; then
@@ -53,9 +52,7 @@ else
   ls -la
   env
   which make
-  cp -r "${CACHE_DIR}/gettext-${VERSION}" "${BUILD_DIR}/gettext-${VERSION}"
   make && touch "${CACHE_DIR}/gettext-${VERSION}/made"
-  cd "${BUILD_DIR}/gettext-${VERSION}/" && /bin/sh configure && make
 fi
 
 printlog "Installing gettext"
