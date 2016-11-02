@@ -51,6 +51,8 @@ else
   printlog "Compiling gettext"
   pwd
   ls -la
+  env
+  which make
   make && touch "${CACHE_DIR}/gettext-${VERSION}/made"
 fi
 
