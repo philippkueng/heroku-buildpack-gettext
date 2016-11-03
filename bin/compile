@@ -50,7 +50,7 @@ if [ -f "${CACHE_DIR}/gettext-${VERSION}/made" ]; then
   printlog "Skip the make call and take already made version from the cache."
 else
   printlog "Compiling gettext"
-  make && touch "${CACHE_DIR}/gettext-${VERSION}/made" && cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
+  make && touch "${CACHE_DIR}/gettext-${VERSION}/made" && cp -r . "${CACHE_DIR}/gettext-${VERSION}"
 fi
 
 pwd
