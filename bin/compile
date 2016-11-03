@@ -25,41 +25,28 @@ run_silent() {
 mkdir -p $CACHE_DIR
 printlog "Cache directory: ${CACHE_DIR}"
 
-if [ -d "${CACHE_DIR}/gettext-${VERSION}" ]; then
-  printlog "Skip downloading and take it from the cache."
-  cp -r "${CACHE_DIR}/gettext-${VERSION}" "gettext-${VERSION}"
+if [ -d "${CACHE_DIR}/compiled" ]; then
+  printlog "Skip downloading & compiling and take it from the cache."
+  cp -r $CACHE_DIR/compiled $INSTALL_DIR/bin
 else
   printlog "Downloading gettext"
   wget "http://ftp.gnu.org/pub/gnu/gettext/gettext-${VERSION}.tar.gz"
 
   printlog "Unpacking gettext"
   tar -zxvf "gettext-${VERSION}.tar.gz"
-  cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
-fi
 
-cd "gettext-${VERSION}"
-
-if [ -f "${CACHE_DIR}/gettext-${VERSION}/configured" ]; then
-  printlog "Skip the ./configure call and take already configured version from the cache."
-else
+  cd "gettext-${VERSION}"
   printlog "Configuring gettext"
-  /bin/sh configure && touch "${CACHE_DIR}/gettext-${VERSION}/configured" && cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
-fi
+  /bin/sh configure
 
-if [ -f "${CACHE_DIR}/gettext-${VERSION}/made" ]; then
-  printlog "Skip the make call and take already made version from the cache."
-else
   printlog "Compiling gettext"
-  make && touch "${CACHE_DIR}/gettext-${VERSION}/made" && cp -r . "${CACHE_DIR}/gettext-${VERSION}"
+  make
+
+  printlog "Installing gettext"
+  mkdir -p $INSTALL_DIR/bin
+  make install DESTDIR=$INSTALL_DIR/bin && cp -r $INSTALL_DIR/bin $CACHE_DIR/compiled
 fi
 
-pwd
-ls -la
-env
-which make
-printlog "Installing gettext"
-mkdir -p $INSTALL_DIR/bin
-make install DESTDIR=$INSTALL_DIR/bin
 
 mkdir -p $PROFILE_DIR
 echo "export PATH=\$PATH:\$HOME/$INSTALL_PATH/bin/usr/local/bin" > $PROFILE_DIR/gettext.sh
