@@ -50,13 +50,13 @@ if [ -f "${CACHE_DIR}/gettext-${VERSION}/made" ]; then
   printlog "Skip the make call and take already made version from the cache."
 else
   printlog "Compiling gettext"
-  pwd
-  ls -la
-  env
-  which make
-  make && touch "${CACHE_DIR}/gettext-${VERSION}/made"
+  make && touch "${CACHE_DIR}/gettext-${VERSION}/made" && cp -r "gettext-${VERSION}" "${CACHE_DIR}/gettext-${VERSION}"
 fi
 
+pwd
+ls -la
+env
+which make
 printlog "Installing gettext"
 mkdir -p $INSTALL_DIR/bin
 make install DESTDIR=$INSTALL_DIR/bin
