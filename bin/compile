@@ -28,7 +28,7 @@ printlog "Cache directory: ${CACHE_DIR}"
 if [ -d "${CACHE_DIR}/compiled" ]; then
   printlog "Skip downloading & compiling and take it from the cache."
   mkdir -p $INSTALL_DIR/bin
-  cp -r $CACHE_DIR/compiled $INSTALL_DIR/bin
+  cp -r $CACHE_DIR/compiled/ $INSTALL_DIR/bin
 else
   printlog "Downloading gettext"
   wget "http://ftp.gnu.org/pub/gnu/gettext/gettext-${VERSION}.tar.gz"
